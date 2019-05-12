@@ -1,8 +1,10 @@
-import React, {createContext, useState} from 'react';
+import React, {useState} from 'react';
 import App from "./App";
 import {User} from "./model/User";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import UserContext from './context/UserContext'
+import {api} from "./api/types";
 
 interface JwtType {
     sub: string,
@@ -18,7 +20,6 @@ function getUserFromLocalStorageJwt(): User | undefined {
     const rawJwt = localStorage.getItem("jwt")
 
     if (rawJwt) {
-        console.log("jwt found, decoding")
         const parsedJwt: JwtType = jwtDecode(rawJwt)
         if (isExpired(parsedJwt)) {
             console.log("jwt expired")
@@ -35,33 +36,53 @@ function getUserFromLocalStorageJwt(): User | undefined {
     return undefined
 }
 
-const UserContext = createContext<User | undefined>(undefined)
-
 const AppState: React.FC = () => {
     const [user, setUser] = useState<User | undefined>(getUserFromLocalStorageJwt())
 
     if (user) {
         const millisTillExpiry = user.expires.getTime() - new Date().getTime()
-        alert("logging out")
+        console.log("Setting auto-logout timeout")
         setTimeout(() => setUser(undefined), millisTillExpiry)
     }
 
-    const doLogin = (username: string, password: string) => {
-        axios.post("http://localhost:8080/v1/login", {email: username, password: password})
-            .then(response => this.doLogin(response))
+    const doLogin = (username: string, password: string): Promise<any> => {
+        return axios.post("http://localhost:8080/api/v1/login", {email: username, password: password})
+            .then(response => {
+                const successfulLoginResponse : api.SuccessfulLoginResponse = response.data
+                localStorage.setItem("jwt", successfulLoginResponse.token)
+                const user = getUserFromLocalStorageJwt()
+                setUser(user)
+                return user
+            })
             .catch(error => {
-                console.log(error);
-                if (error.response && error.response.data.message) {
-                    this.setState({loginError: error.response.data.message})
+                console.log(`Error during doLogin`, error)
+                localStorage.removeItem("jwt")
+                if (error.response) {
+                    return Promise.reject(error.response.data.message)
+                } else if (error.request) {
+                    return Promise.reject(`Request made, but not response received: ${error.message}`)
                 } else {
-                    this.setState({loginError: error.message})
+                    return Promise.reject(`Making the request failed: ${error.message}`)
                 }
             });
     }
 
+    const doLogout = () => {
+        localStorage.removeItem("jwt")
+        setUser(undefined)
+    }
+
+    const fetchOrder = (orderId: string): Promise<api.Order> => {
+        return Promise.reject("too bad")
+    }
+
     return (
         <UserContext.Provider value={user}>
-            <App/>
+            <App
+                doLogin={doLogin}
+                doLogout={doLogout}
+                fetchOrder={fetchOrder}
+            />
         </UserContext.Provider>);
 }
 

@@ -1,13 +1,17 @@
 import React from 'react';
 import './App.css';
+import {GetOrderInterface, LoginInterface, LogoutInterface} from "./interfaces/interfaces";
 import Login from "./components/auth/Login";
-import axios from "axios";
 
-const App: React.FC = (props) => {
+export interface AppProps extends LoginInterface, LogoutInterface, GetOrderInterface{
+
+}
+
+const App: React.FC<AppProps> = (props: AppProps) => {
 
   return (
     <div className="App">
-      <Login />
+      <Login {...props} />
     </div>
   );
 }

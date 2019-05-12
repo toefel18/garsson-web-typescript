@@ -1,3 +1,5 @@
+import {api} from "../api/types";
+
 export class User implements api.User {
     name: string;
     roles: string[];

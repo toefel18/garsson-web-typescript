@@ -1,6 +1,4 @@
-namespace api {
-
-
+export namespace api {
     type QuantityUnit = "ITEM" | "LITER" | "GRAM";
 
     interface Product {
