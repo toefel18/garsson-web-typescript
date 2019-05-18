@@ -1,4 +1,4 @@
-import {api} from "../api/types";
+import {api} from "../apitypes";
 
 export class User implements api.User {
     name: string;

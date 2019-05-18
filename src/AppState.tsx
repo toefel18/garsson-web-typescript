@@ -4,7 +4,7 @@ import {User} from "./model/User";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import UserContext from './context/UserContext'
-import {api} from "./api/types";
+import {api} from "./apitypes";
 
 interface JwtType {
     sub: string,
@@ -45,14 +45,18 @@ const AppState: React.FC = () => {
         setTimeout(() => setUser(undefined), millisTillExpiry)
     }
 
-    const doLogin = (username: string, password: string): Promise<any> => {
+    const doLogin = (username: string, password: string): Promise<User> => {
         return axios.post("http://localhost:8080/api/v1/login", {email: username, password: password})
             .then(response => {
                 const successfulLoginResponse : api.SuccessfulLoginResponse = response.data
                 localStorage.setItem("jwt", successfulLoginResponse.token)
                 const user = getUserFromLocalStorageJwt()
                 setUser(user)
-                return user
+                if (user) {
+                    return user
+                } else {
+                    throw new Error("user from JWT not parsed correctly")
+                }
             })
             .catch(error => {
                 console.log(`Error during doLogin`, error)
@@ -81,7 +85,8 @@ const AppState: React.FC = () => {
             <App
                 doLogin={doLogin}
                 doLogout={doLogout}
-                fetchOrder={fetchOrder}
+                fetchOrderById={fetchOrder}
+                user={user}
             />
         </UserContext.Provider>);
 }
