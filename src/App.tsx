@@ -1,16 +1,26 @@
 import React from 'react';
-import {GetOrderInterface, LoggedInUser, LoginInterface, LogoutInterface} from "./interfaces/interfaces";
+import {
+    GetOrderInterface, GetOrdersInterface,
+    LoggedInUser,
+    LoginInterface,
+    LogoutInterface,
+    OrdersInterface
+} from "./interfaces/interfaces";
 import LoginForm from "./components/LoginForm";
 import MenuBar from "./components/MenuBar";
 
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
+import OrdersForm from "./components/OrdersForm";
 
 export interface AppProps extends LoginInterface,
     LogoutInterface,
     GetOrderInterface,
-    LoggedInUser {
+    LoggedInUser,
+    OrdersInterface,
+    GetOrdersInterface
+{
 }
 
 const App: React.FC<AppProps> = (props: AppProps) => {
@@ -21,7 +31,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                 <MenuBar user={props.user} />
                 <Switch>
                     <Route path="/orders" exact={true} render={
-                        (routeProps) => props.user ? <div>Orders</div> : <Redirect to="/login"/>
+                        (routeProps) => props.user ? <OrdersForm orders={props.orders} fetchOrders={props.fetchOrders} /> : <Redirect to="/login"/>
                     }/>
                     <Route path="/new-order" exact={true} render={
                         (routeProps) => props.user ? <div>New order</div> : <Redirect to="/login"/>

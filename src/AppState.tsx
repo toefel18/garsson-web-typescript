@@ -38,6 +38,7 @@ function getUserFromLocalStorageJwt(): User | undefined {
 
 const AppState: React.FC = () => {
     const [user, setUser] = useState<User | undefined>(getUserFromLocalStorageJwt())
+    const [orders, setOrders] = useState<api.Order[]>([])
 
     if (user) {
         const millisTillExpiry = user.expires.getTime() - new Date().getTime()
@@ -48,7 +49,7 @@ const AppState: React.FC = () => {
     const doLogin = (username: string, password: string): Promise<User> => {
         return axios.post("http://localhost:8080/api/v1/login", {email: username, password: password})
             .then(response => {
-                const successfulLoginResponse : api.SuccessfulLoginResponse = response.data
+                const successfulLoginResponse: api.SuccessfulLoginResponse = response.data
                 localStorage.setItem("jwt", successfulLoginResponse.token)
                 const user = getUserFromLocalStorageJwt()
                 setUser(user)
@@ -80,13 +81,26 @@ const AppState: React.FC = () => {
         return Promise.reject("too bad")
     }
 
+    const fetchOrders = (): Promise<any> => {
+        return axios.get("http://localhost:8080/api/v1/orders", {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
+            .then(res => {
+                setOrders(res.data)
+            })
+            .catch(err => {
+                console.log("Fetch orders failed", err)
+                return Promise.reject(err)
+            })
+    }
+
     return (
         <UserContext.Provider value={user}>
             <App
                 doLogin={doLogin}
                 doLogout={doLogout}
                 fetchOrderById={fetchOrder}
+                fetchOrders={fetchOrders}
                 user={user}
+                orders={orders}
             />
         </UserContext.Provider>);
 }

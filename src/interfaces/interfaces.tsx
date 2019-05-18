@@ -15,6 +15,10 @@ export interface LogoutInterface {
     doLogout: () => void
 }
 
+export interface GetOrdersInterface {
+    fetchOrders: () => Promise<any>
+}
+
 export interface GetOrderInterface {
     fetchOrderById: (orderId : string) => Promise<Order>
 }
@@ -23,4 +27,8 @@ export interface RouteProps {
     match: any, // this type is complex
     location: H.Location<H.LocationState>,
     history: H.History
+}
+
+export interface OrdersInterface {
+    orders: api.Order[]
 }
