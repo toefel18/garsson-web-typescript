@@ -30,6 +30,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
             <Router>
                 <MenuBar user={props.user} />
                 <Switch>
+                    <Route path="/" exact={true} render={() => <Redirect to="/orders"/>}/>
                     <Route path="/orders" exact={true} render={
                         (routeProps) => props.user ? <OrdersForm orders={props.orders} fetchOrders={props.fetchOrders} /> : <Redirect to="/login"/>
                     }/>
