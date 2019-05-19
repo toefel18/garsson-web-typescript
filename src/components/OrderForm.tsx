@@ -8,7 +8,7 @@ interface OrderFormInterface {
 
 const OrderForm: React.FC<OrderFormInterface> = (props) => {
     return (
-        <div style={{padding: "5px"}}>
+        <div style={{padding: "5px", width: "250px", flexGrow: 1}}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div><strong>Order {props.order.orderId}</strong></div>
                 <div><Label>{props.order.state}</Label></div>
