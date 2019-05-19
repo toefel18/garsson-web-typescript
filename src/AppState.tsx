@@ -92,6 +92,8 @@ const AppState: React.FC = () => {
             })
     }
 
+    if (orders.length === 0) fetchOrders()
+
     return (
         <UserContext.Provider value={user}>
             <App

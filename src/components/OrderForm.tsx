@@ -1,6 +1,6 @@
 import React from "react";
 import {api} from "../apitypes";
-import {Table} from "semantic-ui-react";
+import {Label, Table} from "semantic-ui-react";
 
 interface OrderFormInterface {
     order: api.Order
@@ -8,12 +8,16 @@ interface OrderFormInterface {
 
 const OrderForm: React.FC<OrderFormInterface> = (props) => {
     return (
-        <div style={{display: "inline-block", margin: "5px"}}>
-            <strong>Order {props.order.orderId}</strong><br/>
+        <div style={{padding: "5px"}}>
+            <div style={{display: "flex", justifyContent: "space-between"}}>
+                <div><strong>Order {props.order.orderId}</strong></div>
+                <div><Label>{props.order.state}</Label></div>
+            </div>
             <span>Created: {props.order.createdTime}</span><br/>
             <span>Waiter: {props.order.waiterId}</span><br/>
+            <span>Tafel: {props.order.tableId}</span><br/>
 
-            <Table>
+            <Table compact={false} unstackable={true}>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Product</Table.HeaderCell>
@@ -33,8 +37,8 @@ const OrderForm: React.FC<OrderFormInterface> = (props) => {
 
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='2'>Totaal</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='1'>&euro; 15</Table.HeaderCell>
+                        <Table.HeaderCell colSpan='2'><b>Totaal</b></Table.HeaderCell>
+                        <Table.HeaderCell colSpan='1'><b>&euro; 15</b></Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
             </Table>
