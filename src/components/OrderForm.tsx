@@ -22,8 +22,8 @@ const OrderForm: React.FC<OrderFormInterface> = (props) => {
             </div>
             <span>Created: {createdTime}</span><br/>
             <span>Prepared: {preparedTime}</span><br/>
-            <span>Delivered: {preparedTime}</span><br/>
-            <span>Paid: {preparedTime}</span><br/>
+            <span>Delivered: {deliveredTime}</span><br/>
+            <span>Paid: {paidTime}</span><br/>
             <span>Waiter: {props.order.waiterId}</span><br/>
             <span>Tafel: {props.order.tableId}</span><br/>
 
