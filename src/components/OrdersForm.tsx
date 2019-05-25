@@ -8,23 +8,11 @@ interface OrdersFormInterface extends OrdersInterface, GetOrdersInterface {
 
 const OrdersForm: React.FC<OrdersFormInterface> = (props) => {
     return (
-        <div style={{padding:"5px"}}>
+        <div style={{padding: "5px"}}>
             <div><Button onClick={props.fetchOrders}>Fetch orders</Button></div>
             <div style={{display: "flex", flexWrap: "wrap"}}>
-                {props.orders.map(order => (
-                        <OrderForm key={order.orderId} order={order}/>
-                ))}
+                {props.orders.map(order => <OrderForm key={order.orderId} order={order}/>)}
             </div>
-
-            {/*<Grid doubling columns={5} >*/}
-            {/*    <Grid.Row>*/}
-            {/*    {props.orders.map(order => (*/}
-            {/*        <Grid.Column key={order.orderId}>*/}
-            {/*            <OrderForm order={order}/>*/}
-            {/*        </Grid.Column>*/}
-            {/*    ))}*/}
-            {/*    </Grid.Row>*/}
-            {/*</Grid>*/}
         </div>)
 }
 
