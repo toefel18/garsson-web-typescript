@@ -39,6 +39,7 @@ function getUserFromLocalStorageJwt(): User | undefined {
 const AppState: React.FC = () => {
     const [user, setUser] = useState<User | undefined>(getUserFromLocalStorageJwt())
     const [orders, setOrders] = useState<api.Order[]>([])
+    const [products, setProducts] = useState<api.Product[]>([])
 
     if (user) {
         const millisTillExpiry = user.expires.getTime() - new Date().getTime()
@@ -92,7 +93,19 @@ const AppState: React.FC = () => {
             })
     }
 
+    const fetchProducts = (): Promise<any> => {
+        return axios.get("http://localhost:8080/api/v1/products", {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
+            .then(res => {
+                setProducts(res.data)
+            })
+            .catch(err => {
+                console.log("Fetch products failed", err)
+                return Promise.reject(err)
+            })
+    }
+
     if (orders.length === 0) fetchOrders()
+    if (products.length === 0) fetchProducts()
 
     return (
         <UserContext.Provider value={user}>
@@ -103,6 +116,8 @@ const AppState: React.FC = () => {
                 fetchOrders={fetchOrders}
                 user={user}
                 orders={orders}
+                fetchProducts={fetchProducts}
+                products={products}
             />
         </UserContext.Provider>);
 }

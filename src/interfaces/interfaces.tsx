@@ -32,3 +32,11 @@ export interface RouteProps {
 export interface OrdersInterface {
     orders: api.Order[]
 }
+
+export interface ProductInterface {
+    products: api.Product[]
+}
+
+export interface GetProductsInterface {
+    fetchProducts: () => Promise<any>
+}

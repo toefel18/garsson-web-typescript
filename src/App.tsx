@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    GetOrderInterface, GetOrdersInterface,
+    GetOrderInterface, GetOrdersInterface, GetProductsInterface,
     LoggedInUser,
     LoginInterface,
     LogoutInterface,
-    OrdersInterface
+    OrdersInterface, ProductInterface
 } from "./interfaces/interfaces";
 import LoginForm from "./components/LoginForm";
 import MenuBar from "./components/MenuBar";
@@ -13,13 +13,16 @@ import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 import OrdersForm from "./components/OrdersForm";
+import ProductTable from "./components/ProductTable";
 
 export interface AppProps extends LoginInterface,
     LogoutInterface,
     GetOrderInterface,
     LoggedInUser,
     OrdersInterface,
-    GetOrdersInterface
+    GetOrdersInterface,
+    ProductInterface,
+    GetProductsInterface
 {
 }
 
@@ -36,6 +39,9 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                     }/>
                     <Route path="/new-order" exact={true} render={
                         (routeProps) => props.user ? <div>New order</div> : <Redirect to="/login"/>
+                    }/>
+                    <Route path="/products" exact={true} render={
+                        (routeProps) => props.user ? <ProductTable products={props.products} fetchProducts={props.fetchProducts} /> : <Redirect to="/login"/>
                     }/>
                     <Route path="/login" exact={true} render={
                         (routeProps) => !props.user && <LoginForm doLogin={props.doLogin} />

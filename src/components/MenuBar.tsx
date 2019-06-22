@@ -24,6 +24,7 @@ const MenuBar: React.FC<MenuBarProps> = (props) => {
         <Menu style={{margin:"0px"}}>
             {renderMenuItem("Orders", "/orders")}
             {renderMenuItem("New Order", "/new-order")}
+            {renderMenuItem("Products", "/products")}
             {!props.user && renderMenuItem("Login", "/login", "right")}
             {props.user && renderMenuItem(props.user.name, "/profile", "right")}
             {/*{<Menu.Item*/}
