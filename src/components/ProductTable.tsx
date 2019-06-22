@@ -6,6 +6,8 @@ import {api} from "../apitypes";
 interface ProductTableInterface extends ProductInterface, GetProductsInterface {
 }
 
+const numericPropertiesOfProduct = ["id", "pricePerUnit", "purchasePricePerUnit"]
+
 const ProductTable: React.FC<ProductTableInterface> = (props) => {
 
     const [sortColumn, setSortColumn] = useState<string>("name")
@@ -13,15 +15,20 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
     const [products, setProducts] = useState<api.Product[]>([...props.products])
 
     useEffect(() => {
+        // create a comparator that sorts on string unless the sortColumn is a numeric type
+        const comparator: (a: string, b: string) => number = numericPropertiesOfProduct.includes(sortColumn)
+            ? (a: string, b: string) => Number(a) - Number(b)
+            : (a: string, b: string) => a.localeCompare(b)
+
         const sortedProducts = [...props.products].sort((a: api.Product, b: api.Product) => {
             // required because typescript does not support a[sortColumn]
             const sortValueA = `${a[sortColumn as keyof api.Product]}`
             const sortValueB = `${b[sortColumn as keyof api.Product]}`
 
             if (sortDirection === 'ascending') {
-                return sortValueA.localeCompare(sortValueB)
+                return comparator(sortValueA, sortValueB)
             } else {
-                return sortValueB.localeCompare(sortValueA)
+                return comparator(sortValueB, sortValueA)
             }
         })
 
@@ -38,22 +45,22 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
 
     const renderProductRow = (product: api.Product) => {
         return (<Table.Row>
-            <Table.HeaderCell>{product.id}</Table.HeaderCell>
-            <Table.HeaderCell>{product.name}</Table.HeaderCell>
-            <Table.HeaderCell>{product.brand}</Table.HeaderCell>
-            <Table.HeaderCell>{product.barcode}</Table.HeaderCell>
-            <Table.HeaderCell>{product.pricePerUnit}</Table.HeaderCell>
-            <Table.HeaderCell>{product.purchasePricePerUnit}</Table.HeaderCell>
-            <Table.HeaderCell>{product.unit}</Table.HeaderCell>
-            <Table.HeaderCell>{product.createdTime}</Table.HeaderCell>
-            <Table.HeaderCell>{product.lastEditTime}</Table.HeaderCell>
+            <Table.Cell>{product.id}</Table.Cell>
+            <Table.Cell>{product.name}</Table.Cell>
+            <Table.Cell>{product.brand}</Table.Cell>
+            {/*<Table.Cell>{product.barcode}</Table.Cell>*/}
+            <Table.Cell>{product.pricePerUnit}</Table.Cell>
+            <Table.Cell>{product.purchasePricePerUnit}</Table.Cell>
+            {/*<Table.Cell>{product.unit}</Table.Cell>*/}
+            <Table.Cell>{product.createdTime}</Table.Cell>
+            {/*<Table.Cell>{product.lastEditTime}</Table.Cell>*/}
         </Table.Row>)
     }
 
     return (
         <div style={{padding: "5px"}}>
             <div><Button onClick={props.fetchProducts}>Fetch products</Button></div>
-            <Table celled striped large>
+            <Table striped sortable unstackable>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell
@@ -65,27 +72,26 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                         <Table.HeaderCell
                             onClick={sortTable('brand')}
                             sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('barcode')}
-                            sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>
+                        {/*<Table.HeaderCell*/}
+                        {/*    onClick={sortTable('barcode')}*/}
+                        {/*    sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>*/}
                         <Table.HeaderCell
                             onClick={sortTable('pricePerUnit')}
                             sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
                         <Table.HeaderCell
                             onClick={sortTable('purchasePricePerUnit')}
-                            sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Purchase
-                            price</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('unit')}
-                            sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>
+                            sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>
+                        {/*<Table.HeaderCell*/}
+                        {/*    onClick={sortTable('unit')}*/}
+                        {/*    sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>*/}
                         <Table.HeaderCell
                             onClick={sortTable('createdTime')}
                             sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created
                             at</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('lastEditTime')}
-                            sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
-                            at</Table.HeaderCell>
+                        {/*<Table.HeaderCell*/}
+                        {/*    onClick={sortTable('lastEditTime')}*/}
+                        {/*    sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated*/}
+                        {/*    at</Table.HeaderCell>*/}
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
