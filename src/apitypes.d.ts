@@ -1,15 +1,13 @@
 export namespace api {
-    type QuantityUnit = "ITEM" | "LITER" | "GRAM";
 
-    interface Product {
-        productId: string;
-        productPrice: number;
-        quantityUnit: QuantityUnit;
-    }
 
     interface OrderLine {
-        product: Product;
+        productBrand: string;
+        productId: string;
+        productName: string;
+        productPrice: number;
         quantity: number;
+        quantityUnit: string;
     }
 
     type State = "CREATED" | "PREPARING" | "READY" | "DELIVERED" | "PAID";
@@ -42,6 +40,18 @@ export namespace api {
 
     interface SuccessfulLoginResponse {
         token: string;
+    }
+
+    interface Product {
+        barcode: string | null;
+        brand: string;
+        createdTime: string | null;
+        id: number | null;
+        lastEditTime: string | null;
+        name: string;
+        pricePerUnit: string;
+        purchasePricePerUnit: string | null;
+        unit: string;
     }
 
     interface Version {

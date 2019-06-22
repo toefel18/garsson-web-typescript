@@ -37,10 +37,10 @@ const OrderForm: React.FC<OrderFormInterface> = (props) => {
                 </Table.Header>
                 <Table.Body>
                     {props.order.orderLines.map(line => {
-                        return <Table.Row key={line.product.productId}>
-                            <Table.Cell>{line.product.productId}</Table.Cell>
+                        return <Table.Row key={line.productId}>
+                            <Table.Cell>{line.productId}</Table.Cell>
                             <Table.Cell>{line.quantity}</Table.Cell>
-                            <Table.Cell>&euro;{line.product.productPrice * line.quantity}</Table.Cell>
+                            <Table.Cell>&euro;{line.productPrice * line.quantity}</Table.Cell>
                         </Table.Row>
                     })}
                 </Table.Body>
