@@ -12,8 +12,8 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
     const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>("ascending")
     const [products, setProducts] = useState<api.Product[]>([...props.products])
 
-    useEffect(()=>{
-        let sortedProducts = [...props.products].sort((a:api.Product, b:api.Product) => {
+    useEffect(() => {
+        const sortedProducts = [...props.products].sort((a: api.Product, b: api.Product) => {
             // required because typescript does not support a[sortColumn]
             const sortValueA = `${a[sortColumn as keyof api.Product]}`
             const sortValueB = `${b[sortColumn as keyof api.Product]}`
@@ -73,16 +73,19 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                             sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
                         <Table.HeaderCell
                             onClick={sortTable('purchasePricePerUnit')}
-                            sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Purchase price</Table.HeaderCell>
+                            sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Purchase
+                            price</Table.HeaderCell>
                         <Table.HeaderCell
                             onClick={sortTable('unit')}
                             sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>
                         <Table.HeaderCell
                             onClick={sortTable('createdTime')}
-                            sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created at</Table.HeaderCell>
+                            sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created
+                            at</Table.HeaderCell>
                         <Table.HeaderCell
                             onClick={sortTable('lastEditTime')}
-                            sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated at</Table.HeaderCell>
+                            sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
+                            at</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
