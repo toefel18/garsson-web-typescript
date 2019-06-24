@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    AddProductsInterface,
     GetOrderInterface, GetOrdersInterface, GetProductsInterface,
     LoggedInUser,
     LoginInterface,
@@ -22,7 +23,8 @@ export interface AppProps extends LoginInterface,
     OrdersInterface,
     GetOrdersInterface,
     ProductInterface,
-    GetProductsInterface
+    GetProductsInterface,
+    AddProductsInterface
 {
 }
 
@@ -41,7 +43,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                         (routeProps) => props.user ? <div>New order</div> : <Redirect to="/login"/>
                     }/>
                     <Route path="/products" exact={true} render={
-                        (routeProps) => props.user ? <ProductTable products={props.products} fetchProducts={props.fetchProducts} /> : <Redirect to="/login"/>
+                        (routeProps) => props.user ? <ProductTable products={props.products} fetchProducts={props.fetchProducts} addProduct={props.addProduct} /> : <Redirect to="/login"/>
                     }/>
                     <Route path="/login" exact={true} render={
                         (routeProps) => !props.user && <LoginForm doLogin={props.doLogin} />

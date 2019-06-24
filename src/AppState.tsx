@@ -104,6 +104,19 @@ const AppState: React.FC = () => {
             })
     }
 
+    const addProduct = (product : api.Product): Promise<any> => {
+        return axios.post("http://localhost:8080/api/v1/products",product, {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
+            .then(res => {
+                console.log("Product added!", res)
+                fetchProducts() // TODO should update page, but it does not
+                return res
+            })
+            .catch(err => {
+                console.log("Add product failed", product, err)
+                return Promise.reject(err)
+            })
+    }
+
     if (orders.length === 0) fetchOrders()
     if (products.length === 0) fetchProducts()
 
@@ -118,6 +131,7 @@ const AppState: React.FC = () => {
                 orders={orders}
                 fetchProducts={fetchProducts}
                 products={products}
+                addProduct={addProduct}
             />
         </UserContext.Provider>);
 }

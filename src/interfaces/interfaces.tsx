@@ -40,3 +40,7 @@ export interface ProductInterface {
 export interface GetProductsInterface {
     fetchProducts: () => Promise<any>
 }
+
+export interface AddProductsInterface {
+    addProduct: (product: api.Product) => Promise<any>
+}

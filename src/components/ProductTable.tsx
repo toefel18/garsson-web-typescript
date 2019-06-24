@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {GetProductsInterface, ProductInterface} from "../interfaces/interfaces";
+import {AddProductsInterface, GetProductsInterface, ProductInterface} from "../interfaces/interfaces";
 import {Button, Responsive, Segment, Table} from "semantic-ui-react";
 import {api} from "../apitypes";
+import AddProductForm from "./AddProductForm";
 
-interface ProductTableInterface extends ProductInterface, GetProductsInterface {
+interface ProductTableInterface extends ProductInterface, GetProductsInterface, AddProductsInterface {
 }
 
 const numericPropertiesOfProduct = ["id", "pricePerUnit", "purchasePricePerUnit"]
@@ -164,6 +165,7 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                     </Table>
                 </Responsive>
             </Segment.Group>
+            <AddProductForm addProduct={props.addProduct}/>
         </div>)
 }
 
