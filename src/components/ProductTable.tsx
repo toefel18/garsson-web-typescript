@@ -78,7 +78,7 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
     }
 
     const renderProductRowLarge = (product: api.Product) => {
-        return (<Table.Row>
+        return (<Table.Row key={product.id || 0}>
             <Table.Cell>{product.id}</Table.Cell>
             <Table.Cell>{product.name}</Table.Cell>
             <Table.Cell>{product.brand}</Table.Cell>
@@ -126,7 +126,7 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
         </Table.Row>)
     }
     const renderProductRowSmall = (product: api.Product) => {
-        return (<Table.Row>
+        return (<Table.Row key={product.id || 0}>
             <Table.Cell>{product.id}</Table.Cell>
             <Table.Cell>{product.name}</Table.Cell>
             <Table.Cell>{product.brand}</Table.Cell>
