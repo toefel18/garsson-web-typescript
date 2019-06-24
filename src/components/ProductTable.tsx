@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {GetProductsInterface, ProductInterface} from "../interfaces/interfaces";
-import {Button, Table} from "semantic-ui-react";
+import {Button, Responsive, Segment, Table} from "semantic-ui-react";
 import {api} from "../apitypes";
 
 interface ProductTableInterface extends ProductInterface, GetProductsInterface {
@@ -43,62 +43,127 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
         }
     }
 
-    const renderProductRow = (product: api.Product) => {
+    const renderHeaderRowLarge = () => {
+        return (<Table.Row>
+            <Table.HeaderCell
+                onClick={sortTable('id')}
+                sorted={sortColumn === 'id' ? sortDirection : undefined}>ID</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('name')}
+                sorted={sortColumn === 'name' ? sortDirection : undefined}>Name</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('brand')}
+                sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('barcode')}
+                sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('pricePerUnit')}
+                sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('purchasePricePerUnit')}
+                sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('unit')}
+                sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('createdTime')}
+                sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created
+                at</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('lastEditTime')}
+                sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
+                at</Table.HeaderCell>
+        </Table.Row>)
+    }
+
+    const renderProductRowLarge = (product: api.Product) => {
+        return (<Table.Row>
+            <Table.Cell>{product.id}</Table.Cell>
+            <Table.Cell>{product.name}</Table.Cell>
+            <Table.Cell>{product.brand}</Table.Cell>
+            <Table.Cell>{product.barcode}</Table.Cell>
+            <Table.Cell>{product.pricePerUnit}</Table.Cell>
+            <Table.Cell>{product.purchasePricePerUnit}</Table.Cell>
+            <Table.Cell>{product.unit}</Table.Cell>
+            <Table.Cell>{product.createdTime}</Table.Cell>
+            <Table.Cell>{product.lastEditTime}</Table.Cell>
+        </Table.Row>)
+    }
+
+
+    const renderHeaderRowSmall = () => {
+        return (<Table.Row>
+            <Table.HeaderCell
+                onClick={sortTable('id')}
+                sorted={sortColumn === 'id' ? sortDirection : undefined}>ID</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('name')}
+                sorted={sortColumn === 'name' ? sortDirection : undefined}>Name</Table.HeaderCell>
+            <Table.HeaderCell
+                onClick={sortTable('brand')}
+                sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
+            {/*<Table.HeaderCell*/}
+            {/*    onClick={sortTable('barcode')}*/}
+            {/*    sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>*/}
+            <Table.HeaderCell
+                onClick={sortTable('pricePerUnit')}
+                sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
+            {/*<Table.HeaderCell*/}
+            {/*    onClick={sortTable('purchasePricePerUnit')}*/}
+            {/*    sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>*/}
+            {/*<Table.HeaderCell*/}
+            {/*    onClick={sortTable('unit')}*/}
+            {/*    sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>*/}
+            {/*<Table.HeaderCell*/}
+            {/*    onClick={sortTable('createdTime')}*/}
+            {/*    sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created*/}
+            {/*    at</Table.HeaderCell>*/}
+            <Table.HeaderCell
+                onClick={sortTable('lastEditTime')}
+                sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
+                at</Table.HeaderCell>
+        </Table.Row>)
+    }
+    const renderProductRowSmall = (product: api.Product) => {
         return (<Table.Row>
             <Table.Cell>{product.id}</Table.Cell>
             <Table.Cell>{product.name}</Table.Cell>
             <Table.Cell>{product.brand}</Table.Cell>
             {/*<Table.Cell>{product.barcode}</Table.Cell>*/}
             <Table.Cell>{product.pricePerUnit}</Table.Cell>
-            <Table.Cell>{product.purchasePricePerUnit}</Table.Cell>
+            {/*<Table.Cell>{product.purchasePricePerUnit}</Table.Cell>*/}
             {/*<Table.Cell>{product.unit}</Table.Cell>*/}
-            <Table.Cell>{product.createdTime}</Table.Cell>
-            {/*<Table.Cell>{product.lastEditTime}</Table.Cell>*/}
+            {/*<Table.Cell>{product.createdTime}</Table.Cell>*/}
+            <Table.Cell>{product.lastEditTime}</Table.Cell>
         </Table.Row>)
     }
 
     return (
         <div style={{padding: "5px"}}>
             <div><Button onClick={props.fetchProducts}>Fetch products</Button></div>
-            <Table striped sortable unstackable>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell
-                            onClick={sortTable('id')}
-                            sorted={sortColumn === 'id' ? sortDirection : undefined}>ID</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('name')}
-                            sorted={sortColumn === 'name' ? sortDirection : undefined}>Name</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('brand')}
-                            sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
-                        {/*<Table.HeaderCell*/}
-                        {/*    onClick={sortTable('barcode')}*/}
-                        {/*    sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>*/}
-                        <Table.HeaderCell
-                            onClick={sortTable('pricePerUnit')}
-                            sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
-                        <Table.HeaderCell
-                            onClick={sortTable('purchasePricePerUnit')}
-                            sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>
-                        {/*<Table.HeaderCell*/}
-                        {/*    onClick={sortTable('unit')}*/}
-                        {/*    sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>*/}
-                        <Table.HeaderCell
-                            onClick={sortTable('createdTime')}
-                            sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created
-                            at</Table.HeaderCell>
-                        {/*<Table.HeaderCell*/}
-                        {/*    onClick={sortTable('lastEditTime')}*/}
-                        {/*    sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated*/}
-                        {/*    at</Table.HeaderCell>*/}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {products.map(product => renderProductRow(product))}
-                </Table.Body>
-                {/*{props.products.map(product => <ProductRow key={product.id || 0} {...product}/>)}*/}
-            </Table>
+            <Segment.Group>
+                <Responsive minWidth={750}>
+                    <Table striped sortable unstackable>
+                        <Table.Header>
+                            {renderHeaderRowLarge()}
+                        </Table.Header>
+                        <Table.Body>
+                            {products.map(product => renderProductRowLarge(product))}
+                        </Table.Body>
+                    </Table>
+                </Responsive>
+                <Responsive maxWidth={750}>
+                    <Table striped sortable unstackable>
+                        <Table.Header>
+                            {renderHeaderRowSmall()}
+                        </Table.Header>
+                        <Table.Body>
+                            {products.map(product => renderProductRowSmall(product))}
+                        </Table.Body>
+                    </Table>
+                </Responsive>
+            </Segment.Group>
         </div>)
 }
 
