@@ -89,7 +89,7 @@ const AppState: React.FC = () => {
             })
             .catch(err => {
                 console.log("Fetch orders failed", err)
-                return Promise.reject(err)
+                return Promise.reject(err.response)
             })
     }
 
@@ -100,7 +100,7 @@ const AppState: React.FC = () => {
             })
             .catch(err => {
                 console.log("Fetch products failed", err)
-                return Promise.reject(err)
+                return Promise.reject(err.response) //TODO implement like login
             })
     }
 
@@ -108,17 +108,18 @@ const AppState: React.FC = () => {
         return axios.post("http://localhost:8080/api/v1/products",product, {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
             .then(res => {
                 console.log("Product added!", res)
-                fetchProducts() // TODO should update page, but it does not
+                fetchProducts()
+                // setTimeout(() => { fetchProducts() }, 1)
                 return res
             })
             .catch(err => {
-                console.log("Add product failed", product, err)
-                return Promise.reject(err)
+                console.log("Add product failed", product, err) //TODO implement like login
+                return Promise.reject(err.response)
             })
     }
 
-    if (orders.length === 0) fetchOrders()
-    if (products.length === 0) fetchProducts()
+    // if (orders.length === 0) fetchOrders()     //causes infinite requests if response empty
+    // if (products.length === 0) fetchProducts() //causes infinite requests if response empty
 
     return (
         <UserContext.Provider value={user}>

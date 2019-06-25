@@ -40,7 +40,10 @@ const AddProductForm: React.FC<AddProductForm> = (props) => {
         }
 
         props.addProduct(product)
-            .catch(e => {setError(e)})
+            .catch(e => {
+                console.log(e.data.messasge)
+                setError(e.data.message)
+            })
     }
 
     return (
