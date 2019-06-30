@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {AddProductsInterface, GetProductsInterface, ProductInterface} from "../interfaces/interfaces";
+import {
+    AddProductInterface,
+    DeleteProductInterface,
+    GetProductsInterface,
+    ProductInterface
+} from "../interfaces/interfaces";
 import {Button, Responsive, Segment, Table} from "semantic-ui-react";
 import {api} from "../apitypes";
 import AddProductForm from "./AddProductForm";
 
-interface ProductTableInterface extends ProductInterface, GetProductsInterface, AddProductsInterface {
+interface ProductTableInterface extends ProductInterface, GetProductsInterface, AddProductInterface, DeleteProductInterface {
 }
 
 const numericPropertiesOfProduct = ["id", "pricePerUnit", "purchasePricePerUnit"]
@@ -75,8 +80,21 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                 onClick={sortTable('lastEditTime')}
                 sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
                 at</Table.HeaderCell>
+            <Table.HeaderCell>Actions</Table.HeaderCell>
         </Table.Row>)
     }
+
+    function deleteProduct(id: number | null) {
+        if (id) {
+            props.deleteProduct(id)
+        } else {
+            props.fetchProducts()
+        }
+    }
+
+    const renderDeleteProduct = (id: number | null) => (<Button negative compact onClick={() => deleteProduct(id)}>X</Button>)
+
+
 
     const renderProductRowLarge = (product: api.Product) => {
         return (<Table.Row key={product.id || 0}>
@@ -89,6 +107,7 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             <Table.Cell>{product.unit}</Table.Cell>
             <Table.Cell>{product.createdTime}</Table.Cell>
             <Table.Cell>{product.lastEditTime}</Table.Cell>
+            <Table.Cell>{renderDeleteProduct(product.id)}</Table.Cell>
         </Table.Row>)
     }
 
@@ -104,26 +123,14 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             <Table.HeaderCell
                 onClick={sortTable('brand')}
                 sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
-            {/*<Table.HeaderCell*/}
-            {/*    onClick={sortTable('barcode')}*/}
-            {/*    sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>*/}
             <Table.HeaderCell
                 onClick={sortTable('pricePerUnit')}
                 sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
-            {/*<Table.HeaderCell*/}
-            {/*    onClick={sortTable('purchasePricePerUnit')}*/}
-            {/*    sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>*/}
-            {/*<Table.HeaderCell*/}
-            {/*    onClick={sortTable('unit')}*/}
-            {/*    sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>*/}
-            {/*<Table.HeaderCell*/}
-            {/*    onClick={sortTable('createdTime')}*/}
-            {/*    sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created*/}
-            {/*    at</Table.HeaderCell>*/}
             <Table.HeaderCell
                 onClick={sortTable('lastEditTime')}
                 sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
                 at</Table.HeaderCell>
+            <Table.HeaderCell>Actions</Table.HeaderCell>
         </Table.Row>)
     }
     const renderProductRowSmall = (product: api.Product) => {
@@ -131,12 +138,9 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             <Table.Cell>{product.id}</Table.Cell>
             <Table.Cell>{product.name}</Table.Cell>
             <Table.Cell>{product.brand}</Table.Cell>
-            {/*<Table.Cell>{product.barcode}</Table.Cell>*/}
             <Table.Cell>{product.pricePerUnit}</Table.Cell>
-            {/*<Table.Cell>{product.purchasePricePerUnit}</Table.Cell>*/}
-            {/*<Table.Cell>{product.unit}</Table.Cell>*/}
-            {/*<Table.Cell>{product.createdTime}</Table.Cell>*/}
             <Table.Cell>{product.lastEditTime}</Table.Cell>
+            <Table.Cell>{renderDeleteProduct(product.id)}</Table.Cell>
         </Table.Row>)
     }
 

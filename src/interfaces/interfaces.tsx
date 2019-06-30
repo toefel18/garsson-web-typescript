@@ -41,6 +41,10 @@ export interface GetProductsInterface {
     fetchProducts: () => Promise<any>
 }
 
-export interface AddProductsInterface {
+export interface AddProductInterface {
     addProduct: (product: api.Product) => Promise<any>
+}
+
+export interface DeleteProductInterface {
+    deleteProduct: (productId: number) => Promise<any>
 }

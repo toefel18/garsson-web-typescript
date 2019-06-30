@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {AddProductsInterface} from "../interfaces/interfaces";
+import {AddProductInterface} from "../interfaces/interfaces";
 import {Button, Form, FormProps, Message, Select} from "semantic-ui-react";
 import {api} from "../apitypes";
 
-interface AddProductForm extends AddProductsInterface {
+interface AddProductForm extends AddProductInterface {
 }
 
 const AddProductForm: React.FC<AddProductForm> = (props) => {
@@ -25,6 +25,7 @@ const AddProductForm: React.FC<AddProductForm> = (props) => {
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
         console.log("Submitting")
+        setError('')
         console.log(name, brand, barcode, unit, price, cost)
 
         const product: api.Product = {

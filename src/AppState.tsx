@@ -118,6 +118,21 @@ const AppState: React.FC = () => {
             })
     }
 
+    const deleteProduct = (productId : number): Promise<any> => {
+        return axios.delete(`http://localhost:8080/api/v1/products/${productId}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
+            .then(res => {
+                console.log(`Product with id ${productId} deleted!`, res)
+                fetchProducts()
+                return res
+            })
+            .catch(err => {
+                console.log("Delete product failed", productId, err) //TODO implement like login
+                fetchProducts()
+                return Promise.reject(err.response)
+            })
+    }
+
+
     // if (orders.length === 0) fetchOrders()     //causes infinite requests if response empty
     // if (products.length === 0) fetchProducts() //causes infinite requests if response empty
 
@@ -133,6 +148,7 @@ const AppState: React.FC = () => {
                 fetchProducts={fetchProducts}
                 products={products}
                 addProduct={addProduct}
+                deleteProduct={deleteProduct}
             />
         </UserContext.Provider>);
 }
