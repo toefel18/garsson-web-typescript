@@ -40,6 +40,7 @@ const AppState: React.FC = () => {
     const [user, setUser] = useState<User | undefined>(getUserFromLocalStorageJwt())
     const [orders, setOrders] = useState<api.Order[]>([])
     const [products, setProducts] = useState<api.Product[]>([])
+    const [firstTimeLoad, setFirstTimeLoad] = useState<boolean>(false)
 
     if (user) {
         const millisTillExpiry = user.expires.getTime() - new Date().getTime()
@@ -144,6 +145,11 @@ const AppState: React.FC = () => {
             })
     }
 
+    if (!firstTimeLoad) {
+        setFirstTimeLoad(true)
+        fetchOrders()
+        fetchProducts()
+    }
 
     // if (orders.length === 0) fetchOrders()     //causes infinite requests if response empty
     // if (products.length === 0) fetchProducts() //causes infinite requests if response empty

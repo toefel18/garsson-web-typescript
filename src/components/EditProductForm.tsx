@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Form, FormProps, Message, Select} from "semantic-ui-react";
+import {Button, Dropdown, Form, FormProps, Message, Select} from "semantic-ui-react";
 import {api} from "../apitypes";
 import {UpdateProductInterface} from "../interfaces/interfaces";
 
@@ -66,7 +66,13 @@ const EditProductForm: React.FC<EditProductForm> = (props) => {
                 </Form.Field>
                 <Form.Field required>
                     <label>Unit</label>
-                    <Select placeholder='Select the unit' options={selectOptions}
+                    {/*<Dropdown */}
+                    {/*    placeholder='Select unit'*/}
+                    {/*    selection={}*/}
+                    {/*/>*/}
+                    <Select placeholder='Select the unit'
+                            options={selectOptions}
+                            defaultValue={props.product.unit}
                             onChange={(e) => setUnit(e.currentTarget.textContent || "")}/>
                 </Form.Field>
                 <Form.Field required>
