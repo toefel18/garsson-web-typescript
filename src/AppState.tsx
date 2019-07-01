@@ -109,11 +109,23 @@ const AppState: React.FC = () => {
             .then(res => {
                 console.log("Product added!", res)
                 fetchProducts()
-                // setTimeout(() => { fetchProducts() }, 1)
                 return res
             })
             .catch(err => {
                 console.log("Add product failed", product, err) //TODO implement like login
+                return Promise.reject(err.response)
+            })
+    }
+
+    const updateProduct = (product : api.Product): Promise<any> => {
+        return axios.put(`http://localhost:8080/api/v1/products/${product.id}`,product, {headers: {'Authorization': `Bearer ${localStorage.getItem('jwt')}`}})
+            .then(res => {
+                console.log("Product updated!", res)
+                fetchProducts()
+                return res
+            })
+            .catch(err => {
+                console.log("Updated product failed", product, err) //TODO implement like login
                 return Promise.reject(err.response)
             })
     }
@@ -149,6 +161,7 @@ const AppState: React.FC = () => {
                 products={products}
                 addProduct={addProduct}
                 deleteProduct={deleteProduct}
+                updateProduct={updateProduct}
             />
         </UserContext.Provider>);
 }

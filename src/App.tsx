@@ -5,7 +5,7 @@ import {
     LoggedInUser,
     LoginInterface,
     LogoutInterface,
-    OrdersInterface, ProductInterface
+    OrdersInterface, ProductInterface, UpdateProductInterface
 } from "./interfaces/interfaces";
 import LoginForm from "./components/LoginForm";
 import MenuBar from "./components/MenuBar";
@@ -15,6 +15,7 @@ import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 import OrdersForm from "./components/OrdersForm";
 import ProductTable from "./components/ProductTable";
+import EditProductForm from "./components/EditProductForm";
 
 export interface AppProps extends LoginInterface,
     LogoutInterface,
@@ -25,7 +26,8 @@ export interface AppProps extends LoginInterface,
     ProductInterface,
     GetProductsInterface,
     AddProductInterface,
-    DeleteProductInterface
+    DeleteProductInterface,
+    UpdateProductInterface
 {
 }
 
@@ -48,6 +50,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                             products={props.products}
                             fetchProducts={props.fetchProducts}
                             addProduct={props.addProduct}
+                            updateProduct={props.updateProduct}
                             deleteProduct={props.deleteProduct}
                         /> : <Redirect to="/login"/>
                     }/>

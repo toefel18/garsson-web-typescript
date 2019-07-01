@@ -3,13 +3,19 @@ import {
     AddProductInterface,
     DeleteProductInterface,
     GetProductsInterface,
-    ProductInterface
+    ProductInterface, UpdateProductInterface
 } from "../interfaces/interfaces";
 import {Button, Modal, Responsive, Segment, Table} from "semantic-ui-react";
 import {api} from "../apitypes";
 import AddProductForm from "./AddProductForm";
+import EditProductForm from "./EditProductForm";
 
-interface ProductTableInterface extends ProductInterface, GetProductsInterface, AddProductInterface, DeleteProductInterface {
+interface ProductTableInterface extends
+    ProductInterface,
+    GetProductsInterface,
+    AddProductInterface,
+    DeleteProductInterface,
+    UpdateProductInterface {
 }
 
 const numericPropertiesOfProduct = ["id", "pricePerUnit", "purchasePricePerUnit"]
@@ -95,6 +101,14 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
     const renderDeleteProduct = (id: number | null) => (
         <Button negative compact onClick={() => deleteProduct(id)}>X</Button>)
 
+    const renderEditProduct = (product: api.Product) => (
+        <Modal closeIcon trigger={<Button compact color='orange'>Edit</Button>}>
+            <Modal.Header>Edit product {product.id}: {product.brand} {product.name}</Modal.Header>
+            <Modal.Content>
+                <EditProductForm updateProduct={props.updateProduct} product={product}/>
+            </Modal.Content>
+        </Modal>
+    )
 
     const renderProductRowLarge = (product: api.Product) => {
         return (<Table.Row key={product.id || 0}>
@@ -107,7 +121,10 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             <Table.Cell>{product.unit}</Table.Cell>
             <Table.Cell>{product.createdTime}</Table.Cell>
             <Table.Cell>{product.lastEditTime}</Table.Cell>
-            <Table.Cell>{renderDeleteProduct(product.id)}</Table.Cell>
+            <Table.Cell>
+                {renderDeleteProduct(product.id)}
+                {renderEditProduct(product)}
+            </Table.Cell>
         </Table.Row>)
     }
 
@@ -140,7 +157,10 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             <Table.Cell>{product.brand}</Table.Cell>
             <Table.Cell>{product.pricePerUnit}</Table.Cell>
             <Table.Cell>{product.lastEditTime}</Table.Cell>
-            <Table.Cell>{renderDeleteProduct(product.id)}</Table.Cell>
+            <Table.Cell>
+                {renderDeleteProduct(product.id)}
+                {renderEditProduct(product)}
+            </Table.Cell>
         </Table.Row>)
     }
 

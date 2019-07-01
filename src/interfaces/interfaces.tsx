@@ -45,6 +45,10 @@ export interface AddProductInterface {
     addProduct: (product: api.Product) => Promise<any>
 }
 
+export interface UpdateProductInterface {
+    updateProduct: (product: api.Product) => Promise<any>
+}
+
 export interface DeleteProductInterface {
     deleteProduct: (productId: number) => Promise<any>
 }
