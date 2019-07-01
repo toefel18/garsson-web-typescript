@@ -18,9 +18,9 @@ const AddProductForm: React.FC<AddProductForm> = (props) => {
     const [error, setError] = useState<string>('')
 
     const selectOptions = [
-        {key: '1', value: 'BOTTLE', text: 'Bottle'},
-        {key: '2', value: 'GLAS', text: 'Glass'},
-        {key: '3', value: 'PACKAGE', text: 'Package'},
+        {key: '1', value: 'BOTTLE', text: 'BOTTLE'},
+        {key: '2', value: 'GLASS', text: 'GLASS'},
+        {key: '3', value: 'PACKAGE', text: 'PACKAGE'},
     ]
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
@@ -65,8 +65,10 @@ const AddProductForm: React.FC<AddProductForm> = (props) => {
                 </Form.Field>
                 <Form.Field required>
                     <label>Unit</label>
-                    <Select placeholder='Select the unit' options={selectOptions}
-                            onChange={(e) => setUnit(e.currentTarget.textContent || "")}/>
+                    <Select placeholder='Select the unit'
+                            options={selectOptions}
+                            defaultValue={"GLASS"}
+                            onChange={(e, {value}) => setUnit(`${value}`)}/>
                 </Form.Field>
                 <Form.Field required>
                     <label>Price</label>

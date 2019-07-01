@@ -1,11 +1,16 @@
 import React from 'react';
 import {
-    AddProductInterface, DeleteProductInterface,
-    GetOrderInterface, GetOrdersInterface, GetProductsInterface,
+    AddProductInterface,
+    DeleteProductInterface,
+    GetOrderInterface,
+    GetOrdersInterface,
+    GetProductsInterface,
     LoggedInUser,
     LoginInterface,
     LogoutInterface,
-    OrdersInterface, ProductInterface, UpdateProductInterface
+    OrdersInterface,
+    ProductInterface,
+    UpdateProductInterface
 } from "./interfaces/interfaces";
 import LoginForm from "./components/LoginForm";
 import MenuBar from "./components/MenuBar";
@@ -15,7 +20,6 @@ import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 import OrdersForm from "./components/OrdersForm";
 import ProductTable from "./components/ProductTable";
-import EditProductForm from "./components/EditProductForm";
 
 export interface AppProps extends LoginInterface,
     LogoutInterface,

@@ -18,11 +18,11 @@ const EditProductForm: React.FC<EditProductForm> = (props) => {
 
     const [error, setError] = useState<string>('')
 
-    const selectOptions = [
-        {key: '1', value: 'BOTTLE', text: 'Bottle'},
-        {key: '2', value: 'GLAS', text: 'Glass'},
-        {key: '3', value: 'PACKAGE', text: 'Package'},
-    ]
+    const [selectOptions, setSelectOptions] = useState([
+        {key: '1', value: 'BOTTLE', text: "BOTTLE"},
+        {key: '2', value: 'GLASS', text: "GLASS"},
+        {key: '3', value: 'PACKAGE', text: "PACKAGE"},
+    ])
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
         console.log("Submitting")
@@ -66,14 +66,11 @@ const EditProductForm: React.FC<EditProductForm> = (props) => {
                 </Form.Field>
                 <Form.Field required>
                     <label>Unit</label>
-                    {/*<Dropdown */}
-                    {/*    placeholder='Select unit'*/}
-                    {/*    selection={}*/}
-                    {/*/>*/}
                     <Select placeholder='Select the unit'
+                            name="unit"
                             options={selectOptions}
-                            defaultValue={props.product.unit}
-                            onChange={(e) => setUnit(e.currentTarget.textContent || "")}/>
+                            defaultValue={"GLASS"}
+                            onChange={(e, {value}) => setUnit(`${value}`)} />
                 </Form.Field>
                 <Form.Field required>
                     <label>Price</label>
