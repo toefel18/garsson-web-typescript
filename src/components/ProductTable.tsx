@@ -5,7 +5,7 @@ import {
     GetProductsInterface,
     ProductInterface
 } from "../interfaces/interfaces";
-import {Button, Responsive, Segment, Table} from "semantic-ui-react";
+import {Button, Modal, Responsive, Segment, Table} from "semantic-ui-react";
 import {api} from "../apitypes";
 import AddProductForm from "./AddProductForm";
 
@@ -92,8 +92,8 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
         }
     }
 
-    const renderDeleteProduct = (id: number | null) => (<Button negative compact onClick={() => deleteProduct(id)}>X</Button>)
-
+    const renderDeleteProduct = (id: number | null) => (
+        <Button negative compact onClick={() => deleteProduct(id)}>X</Button>)
 
 
     const renderProductRowLarge = (product: api.Product) => {
@@ -146,7 +146,16 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
 
     return (
         <div style={{padding: "5px"}}>
-            <div><Button onClick={props.fetchProducts}>Fetch products</Button></div>
+            <div>
+                <Button onClick={props.fetchProducts}>Fetch products</Button>
+                <Modal closeIcon trigger={<Button primary>Add New
+                    Product</Button>}>
+                    <Modal.Header>Add New Product</Modal.Header>
+                    <Modal.Content>
+                        <AddProductForm addProduct={props.addProduct}/>
+                    </Modal.Content>
+                </Modal>
+            </div>
             <Segment.Group>
                 <Responsive minWidth={750}>
                     <Table striped sortable unstackable>
@@ -169,7 +178,6 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                     </Table>
                 </Responsive>
             </Segment.Group>
-            <AddProductForm addProduct={props.addProduct}/>
         </div>)
 }
 
