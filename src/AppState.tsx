@@ -157,13 +157,12 @@ const AppState: React.FC = () => {
         alert('received websocket event' + result)
     }
 
-
-    // if (orders.length === 0) fetchOrders()     //causes infinite requests if response empty
-    // if (products.length === 0) fetchProducts() //causes infinite requests if response empty
-
     return (
         <UserContext.Provider value={user}>
-            <Websocket url="ws://localhost:8080/api/v1/update-stream" onMessage={handleData}/>
+            <Websocket
+                url="ws://localhost:8080/api/v1/update-stream"
+                onMessage={handleData}
+            />
             <App
                 doLogin={doLogin}
                 doLogout={doLogout}
