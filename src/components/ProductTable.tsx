@@ -3,15 +3,16 @@ import {
     AddProductInterface,
     DeleteProductInterface,
     GetProductsInterface,
-    ProductInterface, UpdateProductInterface
+    ProductInterface,
+    UpdateProductInterface
 } from "../interfaces/interfaces";
-import {Button, Modal, Responsive, Segment, Table} from "semantic-ui-react";
+import {Button, Modal, Responsive, Segment} from "semantic-ui-react";
 import {api} from "../apitypes";
 import AddProductForm from "./AddProductForm";
-import EditProductForm from "./EditProductForm";
+import {ProductTableViewLarge} from "./ProductTableViewLarge";
+import {ProductTableViewSmall} from "./ProductTableViewSmall";
 
-interface ProductTableInterface extends
-    ProductInterface,
+interface ProductTableInterface extends ProductInterface,
     GetProductsInterface,
     AddProductInterface,
     DeleteProductInterface,
@@ -55,113 +56,12 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
         }
     }
 
-    const renderHeaderRowLarge = () => {
-        return (<Table.Row>
-            <Table.HeaderCell
-                onClick={sortTable('id')}
-                sorted={sortColumn === 'id' ? sortDirection : undefined}>ID</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('name')}
-                sorted={sortColumn === 'name' ? sortDirection : undefined}>Name</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('brand')}
-                sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('barcode')}
-                sorted={sortColumn === 'barcode' ? sortDirection : undefined}>Barcode</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('pricePerUnit')}
-                sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('purchasePricePerUnit')}
-                sorted={sortColumn === 'purchasePricePerUnit' ? sortDirection : undefined}>Costs</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('unit')}
-                sorted={sortColumn === 'unit' ? sortDirection : undefined}>Unit</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('createdTime')}
-                sorted={sortColumn === 'createdTime' ? sortDirection : undefined}>Created
-                at</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('lastEditTime')}
-                sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
-                at</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
-        </Table.Row>)
-    }
-
-    function deleteProduct(id: number | null) {
-        if (id) {
+    function deleteProduct(id: number) {
+        if (id !== -1) {
             props.deleteProduct(id)
         } else {
             props.fetchProducts()
         }
-    }
-
-    const renderDeleteProduct = (id: number | null) => (
-        <Button negative compact onClick={() => deleteProduct(id)}>X</Button>)
-
-    const renderEditProduct = (product: api.Product) => (
-        <Modal closeIcon trigger={<Button compact color='orange'>Edit</Button>}>
-            <Modal.Header>Edit product {product.id}: {product.brand} {product.name}</Modal.Header>
-            <Modal.Content>
-                <EditProductForm updateProduct={props.updateProduct} product={product}/>
-            </Modal.Content>
-        </Modal>
-    )
-
-    const renderProductRowLarge = (product: api.Product) => {
-        return (<Table.Row key={product.id || 0}>
-            <Table.Cell>{product.id}</Table.Cell>
-            <Table.Cell>{product.name}</Table.Cell>
-            <Table.Cell>{product.brand}</Table.Cell>
-            <Table.Cell>{product.barcode}</Table.Cell>
-            <Table.Cell>{product.pricePerUnit}</Table.Cell>
-            <Table.Cell>{product.purchasePricePerUnit}</Table.Cell>
-            <Table.Cell>{product.unit}</Table.Cell>
-            <Table.Cell>{product.createdTime}</Table.Cell>
-            <Table.Cell>{product.lastEditTime}</Table.Cell>
-            <Table.Cell>
-                {renderDeleteProduct(product.id)}
-                {renderEditProduct(product)}
-            </Table.Cell>
-        </Table.Row>)
-    }
-
-
-    const renderHeaderRowSmall = () => {
-        return (<Table.Row>
-            <Table.HeaderCell
-                onClick={sortTable('id')}
-                sorted={sortColumn === 'id' ? sortDirection : undefined}>ID</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('name')}
-                sorted={sortColumn === 'name' ? sortDirection : undefined}>Name</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('brand')}
-                sorted={sortColumn === 'brand' ? sortDirection : undefined}>Brand</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('pricePerUnit')}
-                sorted={sortColumn === 'pricePerUnit' ? sortDirection : undefined}>Price</Table.HeaderCell>
-            <Table.HeaderCell
-                onClick={sortTable('lastEditTime')}
-                sorted={sortColumn === 'lastEditTime' ? sortDirection : undefined}>Last updated
-                at</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
-        </Table.Row>)
-    }
-    const renderProductRowSmall = (product: api.Product) => {
-        return (<Table.Row key={product.id || 0}>
-            <Table.Cell>{product.id}</Table.Cell>
-            <Table.Cell>{product.name}</Table.Cell>
-            <Table.Cell>{product.brand}</Table.Cell>
-            <Table.Cell>{product.pricePerUnit}</Table.Cell>
-            <Table.Cell>{product.lastEditTime}</Table.Cell>
-            <Table.Cell>
-                {renderDeleteProduct(product.id)}
-                {renderEditProduct(product)}
-            </Table.Cell>
-        </Table.Row>)
     }
 
     return (
@@ -178,28 +78,25 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
             </div>
             <Segment.Group>
                 <Responsive minWidth={750}>
-                    <Table striped sortable unstackable>
-                        <Table.Header>
-                            {renderHeaderRowLarge()}
-                        </Table.Header>
-                        <Table.Body>
-                            {products.map(product => renderProductRowLarge(product))}
-                        </Table.Body>
-                    </Table>
+                    <ProductTableViewLarge
+                        products={products}
+                        sortColumn={sortColumn}
+                        sortDirection={sortDirection}
+                        sortTable={sortTable}
+                        deleteProduct={deleteProduct}
+                        updateProduct={props.updateProduct}/>
                 </Responsive>
                 <Responsive maxWidth={750}>
-                    <Table striped sortable unstackable>
-                        <Table.Header>
-                            {renderHeaderRowSmall()}
-                        </Table.Header>
-                        <Table.Body>
-                            {products.map(product => renderProductRowSmall(product))}
-                        </Table.Body>
-                    </Table>
+                    <ProductTableViewSmall
+                        products={products}
+                        sortColumn={sortColumn}
+                        sortDirection={sortDirection}
+                        sortTable={sortTable}
+                        deleteProduct={deleteProduct}
+                        updateProduct={props.updateProduct}/>
                 </Responsive>
             </Segment.Group>
         </div>)
 }
-
 
 export default ProductTable
