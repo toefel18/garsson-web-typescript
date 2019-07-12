@@ -146,7 +146,7 @@ const AppState: React.FC = () => {
             })
     }
 
-    if (!firstTimeLoad) {
+    if (!firstTimeLoad && user) {
         setFirstTimeLoad(true)
         fetchOrders()
         fetchProducts()
