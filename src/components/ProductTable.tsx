@@ -1,30 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from 'react'
 import {
     AddProductInterface,
     DeleteProductInterface,
     GetProductsInterface,
     ProductsInterface,
-    UpdateProductInterface
-} from "../interfaces/interfaces";
-import {Button, Modal, Responsive, Segment} from "semantic-ui-react";
-import {api} from "../apitypes";
-import AddProductForm from "./AddProductForm";
-import {ProductTableViewLarge} from "./ProductTableViewLarge";
-import {ProductTableViewSmall} from "./ProductTableViewSmall";
+    UpdateProductInterface,
+} from '../interfaces/interfaces'
+import { Button, Modal, Responsive, Segment } from 'semantic-ui-react'
+import { api } from '../apitypes'
+import AddProductForm from './AddProductForm'
+import { ProductTableViewLarge } from './ProductTableViewLarge'
+import { ProductTableViewSmall } from './ProductTableViewSmall'
 
-interface ProductTableInterface extends ProductsInterface,
-    GetProductsInterface,
-    AddProductInterface,
-    DeleteProductInterface,
-    UpdateProductInterface {
-}
+interface ProductTableInterface
+    extends ProductsInterface,
+        GetProductsInterface,
+        AddProductInterface,
+        DeleteProductInterface,
+        UpdateProductInterface {}
 
-const numericPropertiesOfProduct = ["id", "pricePerUnit", "purchasePricePerUnit"]
+const numericPropertiesOfProduct = ['id', 'pricePerUnit', 'purchasePricePerUnit']
 
-const ProductTable: React.FC<ProductTableInterface> = (props) => {
-
-    const [sortColumn, setSortColumn] = useState<string>("name")
-    const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>("ascending")
+const ProductTable: React.FC<ProductTableInterface> = props => {
+    const [sortColumn, setSortColumn] = useState<string>('name')
+    const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>('ascending')
     const [products, setProducts] = useState<api.Product[]>([...props.products])
 
     useEffect(() => {
@@ -65,14 +64,13 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
     }
 
     return (
-        <div style={{padding: "5px"}}>
+        <div style={{ padding: '5px' }}>
             <div>
                 <Button onClick={props.fetchProducts}>Fetch products</Button>
-                <Modal closeIcon trigger={<Button primary>Add New
-                    Product</Button>}>
+                <Modal closeIcon trigger={<Button primary>Add New Product</Button>}>
                     <Modal.Header>Add New Product</Modal.Header>
                     <Modal.Content>
-                        <AddProductForm addProduct={props.addProduct}/>
+                        <AddProductForm addProduct={props.addProduct} />
                     </Modal.Content>
                 </Modal>
             </div>
@@ -84,7 +82,8 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                         sortDirection={sortDirection}
                         sortTable={sortTable}
                         deleteProduct={deleteProduct}
-                        updateProduct={props.updateProduct}/>
+                        updateProduct={props.updateProduct}
+                    />
                 </Responsive>
                 <Responsive maxWidth={750}>
                     <ProductTableViewSmall
@@ -93,10 +92,12 @@ const ProductTable: React.FC<ProductTableInterface> = (props) => {
                         sortDirection={sortDirection}
                         sortTable={sortTable}
                         deleteProduct={deleteProduct}
-                        updateProduct={props.updateProduct}/>
+                        updateProduct={props.updateProduct}
+                    />
                 </Responsive>
             </Segment.Group>
-        </div>)
+        </div>
+    )
 }
 
 export default ProductTable
