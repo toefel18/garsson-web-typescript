@@ -5,7 +5,7 @@ export class User implements api.User {
     public roles: string[]
     public expires: Date
 
-    constructor(name: string, roles: string[], expires: Date) {
+    public constructor(name: string, roles: string[], expires: Date) {
         this.name = name
         this.roles = roles
         this.expires = expires
