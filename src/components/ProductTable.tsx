@@ -3,7 +3,7 @@ import {
     AddProductInterface,
     DeleteProductInterface,
     GetProductsInterface,
-    ProductInterface,
+    ProductsInterface,
     UpdateProductInterface
 } from "../interfaces/interfaces";
 import {Button, Modal, Responsive, Segment} from "semantic-ui-react";
@@ -12,7 +12,7 @@ import AddProductForm from "./AddProductForm";
 import {ProductTableViewLarge} from "./ProductTableViewLarge";
 import {ProductTableViewSmall} from "./ProductTableViewSmall";
 
-interface ProductTableInterface extends ProductInterface,
+interface ProductTableInterface extends ProductsInterface,
     GetProductsInterface,
     AddProductInterface,
     DeleteProductInterface,

@@ -1,6 +1,5 @@
 export namespace api {
 
-
     interface OrderLine {
         productBrand: string;
         productId: string;

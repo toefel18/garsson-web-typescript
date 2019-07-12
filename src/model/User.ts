@@ -1,9 +1,9 @@
 import {api} from "../apitypes";
 
 export class User implements api.User {
-    name: string;
-    roles: string[];
-    expires: Date;
+    public name: string;
+    public roles: string[];
+    public expires: Date;
 
     constructor(name: string, roles: string[], expires: Date) {
         this.name = name;

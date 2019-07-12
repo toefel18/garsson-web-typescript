@@ -9,7 +9,7 @@ import {
     LoginInterface,
     LogoutInterface,
     OrdersInterface,
-    ProductInterface,
+    ProductsInterface,
     UpdateProductInterface
 } from "./interfaces/interfaces";
 import LoginForm from "./components/LoginForm";
@@ -27,7 +27,7 @@ export interface AppProps extends LoginInterface,
     LoggedInUser,
     OrdersInterface,
     GetOrdersInterface,
-    ProductInterface,
+    ProductsInterface,
     GetProductsInterface,
     AddProductInterface,
     DeleteProductInterface,

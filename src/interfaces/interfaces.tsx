@@ -15,8 +15,14 @@ export interface LogoutInterface {
     doLogout: () => void
 }
 
+
+
+export interface OrdersInterface {
+    orders: api.Order[]
+}
+
 export interface GetOrdersInterface {
-    fetchOrders: () => Promise<any>
+    fetchOrders: () => Promise<any> //TODO provide promise type
 }
 
 export interface GetOrderInterface {
@@ -29,11 +35,7 @@ export interface RouteProps {
     history: H.History
 }
 
-export interface OrdersInterface {
-    orders: api.Order[]
-}
-
-export interface ProductInterface {
+export interface ProductsInterface {
     products: api.Product[]
 }
 
