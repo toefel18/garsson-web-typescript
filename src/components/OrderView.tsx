@@ -3,11 +3,11 @@ import {api} from "../apitypes";
 import {Button, Label, Table} from "semantic-ui-react";
 import dateFns from 'date-fns'
 
-interface OrderFormInterface {
+interface OrderViewInterface {
     order: api.Order
 }
 
-const OrderForm: React.FC<OrderFormInterface> = (props) => {
+const OrderView: React.FC<OrderViewInterface> = (props) => {
 
     const createdTime = dateFns.format(dateFns.parse(props.order.createdTime || new Date()), "HH:mm")
     const preparedTime = dateFns.format(dateFns.parse(props.order.preparedTime || new Date()), "HH:mm")
@@ -15,7 +15,14 @@ const OrderForm: React.FC<OrderFormInterface> = (props) => {
     const paidTime = dateFns.format(dateFns.parse(props.order.paidTime || new Date()), "HH:mm")
 
     return (
-        <div style={{padding: "15px", maxWidth: "500px", flexGrow: 1}}>
+        <div style={{
+            margin: "10px",
+            padding: "5px",
+            maxWidth: "500px",
+            flexGrow: 1,
+            border: "1px solid lightgray",
+            borderRadius: "5px"
+        }}>
             <div style={{display: "flex", justifyContent: "space-between"}}>
                 <div><strong>Order {props.order.orderId}</strong></div>
                 <div><Label>{props.order.state}</Label></div>
@@ -59,4 +66,4 @@ const OrderForm: React.FC<OrderFormInterface> = (props) => {
         </div>)
 }
 
-export default OrderForm
+export default OrderView

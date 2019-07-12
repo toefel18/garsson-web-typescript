@@ -18,7 +18,7 @@ import MenuBar from "./components/MenuBar";
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
-import OrdersForm from "./components/OrdersForm";
+import OrdersDashboard from "./components/OrdersDashboard";
 import ProductTable from "./components/ProductTable";
 
 export interface AppProps extends LoginInterface,
@@ -44,7 +44,7 @@ const App: React.FC<AppProps> = (props: AppProps) => {
                 <Switch>
                     <Route path="/" exact={true} render={() => <Redirect to="/orders"/>}/>
                     <Route path="/orders" exact={true} render={
-                        (routeProps) => props.user ? <OrdersForm orders={props.orders} fetchOrders={props.fetchOrders} /> : <Redirect to="/login"/>
+                        (routeProps) => props.user ? <OrdersDashboard orders={props.orders} fetchOrders={props.fetchOrders} /> : <Redirect to="/login"/>
                     }/>
                     <Route path="/new-order" exact={true} render={
                         (routeProps) => props.user ? <div>New order</div> : <Redirect to="/login"/>
